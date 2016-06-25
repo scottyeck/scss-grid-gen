@@ -1,14 +1,34 @@
-$grid-gen-max-width: 				67.4rem !default;
-$grid-gen-gutter-width: 			1rem 	!default;
-$grid-gen-flow-direction: 			left	!default;
-$grid-gen-column-count:				12		!default;
-$grid-gen-column-selector-prefix:	"col-"	!default;
+// 
+// Measurement Configuration
+// 
+$grid-gen-max-width:		70rem 	!default;
+$grid-gen-gutter-width:		1rem 	!default;
+$grid-gen-flow-direction:	left	!default;
+$grid-gen-column-count:		12		!default;
 
-@function grid-gen-column-selector(
+// 
+// Selectors
+// 
+$grid-gen-container-class:		"grid-gen-container" 	!default;
+$grid-gen-row-class:			"grid-gen-row"			!default;
+$grid-gen-column-class:			"grid-gen-column"		!default;
+$grid-gen-column-class-prefix:	"col-"					!default;
+
+@function grid-gen-ensure-class($str) {
+	$char: str-slice($str, 0, 1);
+
+	@if ($char != ".") {
+		$str: "." + $str;
+	}
+
+	@return $str;
+}
+
+@function grid-gen-column-class(
 	$count:		null,
-	$prefix: 	$grid-gen-column-selector-prefix) {
+	$prefix: 	$grid-gen-column-class-prefix) {
 
-	@return "." + $prefix + $count;
+	@return grid-gen-ensure-class($prefix + $count);
 }
 
 @mixin grid-gen-container(
@@ -52,13 +72,13 @@ $grid-gen-column-selector-prefix:	"col-"	!default;
 }
 
 @mixin grid-gen-column-classes(
-	$column-count: 			$grid-gen-column-count,
-	$selector-formatter: 	grid-gen-column-selector) {
+	$column-count: 		$grid-gen-column-count,
+	$class-formatter: 	grid-gen-column-class) {
 
 	@for $i from 1 through $column-count {
-		$selector: call($selector-formatter, $i, $grid-gen-column-selector-prefix);
+		$class: call($class-formatter, $i, $grid-gen-column-class-prefix);
 
-		#{$selector} {
+		#{$class} {
 			@include grid-gen-column-width(
 				$column-count: $column-count,
 				$column-span: $i
