@@ -1,0 +1,25 @@
+{
+  "name": "scss-grid-gen",
+  "version": "0.0.0",
+  "description": "Basic grid-mixins for Sass",
+  "main": "lib/_grid-gen.scss",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "compile": "node-sass"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/scottyeck/scss-grid-gen.git"
+  },
+  "author": "scottyeck",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/scottyeck/scss-grid-gen/issues"
+  },
+  "homepage": "https://github.com/scottyeck/scss-grid-gen#readme",
+  "devDependencies": {
+    "fs-extra": "^0.30.0",
+    "lodash": "^4.13.1",
+    "node-sass": "^3.8.0"
+  }
+}
