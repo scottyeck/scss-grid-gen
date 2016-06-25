@@ -1,0 +1,47 @@
+$grid-gen-max-width: 			67.5rem !default;
+$grid-gen-gutter-width: 		1rem 	!default;
+$grid-gen-flow-direction: 		left	!default;
+$grid-gen-column-count:			12		!default;
+$grid-gen-column-class-prefix:	"col-"	!default;
+
+@function grid-gen-column-class(
+	$count:	null,
+	$prefix: $grid-gen-column-class-prefix) {
+
+	
+}
+
+@mixin grid-gen-container(
+	$max-width: $grid-gen-max-width) {
+
+	display: block;
+	width: auto;
+	max-width: $max-width;
+}
+
+@mixin grid-gen-row(
+	$gutter-width: $grid-gen-gutter-width) {
+
+	width: auto;
+	display: block;
+	
+	&:after {
+		content: ' ';
+		clear: both;
+	}
+}
+
+@mixin grid-gen-column(
+	$flow-direction: $grid-gen-flow-direction) {
+
+	display: block;
+	float: $flow-direction;
+}
+
+@mixin grid-gen-column-classes(
+	$column-count: $grid-gen-column-count,
+	$class-formatter: grid-gen-column-class
+	) {
+
+	
+}

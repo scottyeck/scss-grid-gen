@@ -5,7 +5,10 @@
   "main": "lib/_grid-gen.scss",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "compile": "node-sass"
+    "compilex": "node scripts/compile.js",
+    "clean": "rm -rf dist",
+    "compile": "node-sass lib/screen/grid-gen.scss dist/css/grid-gen.css",
+    "build": "npm run clean && npm run compile"
   },
   "repository": {
     "type": "git",
