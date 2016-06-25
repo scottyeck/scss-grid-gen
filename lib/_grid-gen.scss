@@ -1,14 +1,14 @@
-$grid-gen-max-width: 			67.5rem !default;
-$grid-gen-gutter-width: 		1rem 	!default;
-$grid-gen-flow-direction: 		left	!default;
-$grid-gen-column-count:			12		!default;
-$grid-gen-column-class-prefix:	"col-"	!default;
+$grid-gen-max-width: 				67.4rem !default;
+$grid-gen-gutter-width: 			1rem 	!default;
+$grid-gen-flow-direction: 			left	!default;
+$grid-gen-column-count:				12		!default;
+$grid-gen-column-selector-prefix:	"col-"	!default;
 
-@function grid-gen-column-class(
-	$count:	null,
-	$prefix: $grid-gen-column-class-prefix) {
+@function grid-gen-column-selector(
+	$count:		null,
+	$prefix: 	$grid-gen-column-selector-prefix) {
 
-	
+	@return "." + $prefix + $count;
 }
 
 @mixin grid-gen-container(
@@ -24,6 +24,8 @@ $grid-gen-column-class-prefix:	"col-"	!default;
 
 	width: auto;
 	display: block;
+	margin-left: $gutter-width * -0.5;
+	margin-right: $gutter-width * -0.5;
 	
 	&:after {
 		content: ' ';
@@ -32,16 +34,52 @@ $grid-gen-column-class-prefix:	"col-"	!default;
 }
 
 @mixin grid-gen-column(
-	$flow-direction: $grid-gen-flow-direction) {
+	$flow-direction: 	$grid-gen-flow-direction,
+	$gutter-width: 		$grid-gen-gutter-width) {
 
+	box-sizing: border-box;
 	display: block;
 	float: $flow-direction;
+	padding-left: $gutter-width * 0.5;
+	padding-right: $gutter-width * 0.5;
+}
+
+@mixin grid-gen-column-width(
+	$column-count: 	$grid-gen-column-count,
+	$column-span: 	null) {
+
+	width: 100% / $column-count * $column-span;
 }
 
 @mixin grid-gen-column-classes(
-	$column-count: $grid-gen-column-count,
-	$class-formatter: grid-gen-column-class
-	) {
+	$column-count: 			$grid-gen-column-count,
+	$selector-formatter: 	grid-gen-column-selector) {
 
-	
+	@for $i from 1 through $column-count {
+		$selector: call($selector-formatter, $i, $grid-gen-column-selector-prefix);
+
+		#{$selector} {
+			@include grid-gen-column-width(
+				$column-count: $column-count,
+				$column-span: $i
+			);
+		}
+	}
+}
+
+@mixin grid-gen-grid-classes() {
+
+	.grid-gen-container {
+		@include grid-gen-container();
+	}
+
+	.grid-gen-row {
+		@include grid-gen-row();
+	}
+
+	.grid-gen-col {
+		@include grid-gen-column;
+	}
+
+	@include grid-gen-column-classes();
 }
