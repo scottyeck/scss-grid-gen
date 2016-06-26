@@ -40,18 +40,15 @@ $grid-gen-column-class-prefix:	"grid-gen-col-"			!default;
 }
 
 // 
-// Default function. Generates the class used to indicate
-// column-widths based on a column-count. 
+// PRIVATE. Generates the class used to indicate column-widths
+// based on a column-count. 
 // 
 // @param $count	(Number)	The number of columns to span
-// @param $prefix	(String)	A prefix to apply to each instance
 // @return			(String)	The desired class
 // 
-@function grid-gen-column-class(
-	$count:		null,
-	$prefix: 	$grid-gen-column-class-prefix) {
+@function _grid-gen-column-class($count) {
 
-	@return grid-gen-ensure-class($prefix + $count);
+	@return grid-gen-ensure-class($grid-gen-column-class-prefix + $count);
 }
 
 // 
@@ -128,10 +125,11 @@ $grid-gen-column-class-prefix:	"grid-gen-col-"			!default;
 // 
 @mixin grid-gen-column-classes(
 	$column-count: 		$grid-gen-column-count,
-	$class-formatter: 	grid-gen-column-class) {
+	$class-formatter: 	_grid-gen-column-class) {
 
 	@for $i from 1 through $column-count {
-		$class: call($class-formatter, $i, $grid-gen-column-class-prefix);
+		$class: call($class-formatter, $i);
+		$class: grid-gen-ensure-class($class);
 
 		#{$class} {
 			@include grid-gen-column-width(
@@ -144,6 +142,10 @@ $grid-gen-column-class-prefix:	"grid-gen-col-"			!default;
 
 // 
 // Generates all necessary grid CSS with defaults!
+// 
+// @param $container-class 	(String)	Class for grid-container element
+// @param $row-class		(String)	Class for grid-row element
+// @param $column-class		(String)	Class for grid-column element
 // 
 @mixin grid-gen-declarations(
 	$container-class: 	$grid-gen-container-class,

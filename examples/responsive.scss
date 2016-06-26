@@ -1,0 +1,51 @@
+// 
+// Grid gen configuration
+// 
+
+$grid-gen-max-width: 		90rem;
+$grid-gen-gutter-width: 	1.5rem;
+$grid-gen-column-count: 	24;
+
+$grid-gen-container-class: 		"grid-container";
+$grid-gen-row-class: 			"row";
+$grid-gen-column-class: 		"col";
+$grid-gen-column-class-prefix: 	"col-";
+
+// 
+// App-specific configuration
+// 
+
+@function _format-class-medium($count) {
+	@return "col-" + $count + "-medium";
+}
+
+@function _format-class-large($count) {
+	@return "col-" + $count + "-large";
+}
+
+$medium: "screen and (min-width: 720px)";
+$large: "screen and (min-width: 1080px)";
+
+// 
+// Import
+// 
+@import "node_modules/scss-grid-gen/core";
+
+// 
+// Base CSS props
+// 
+@include grid-gen-declarations();
+
+// 
+// Responsive props
+// 
+@media #{$medium} {
+	@include grid-gen-column-classes(
+		$class-formatter: _format-class-medium
+	);
+}
+@media #{$large} {
+	@include grid-gen-column-classes(
+		$class-formatter: _format-class-large
+	);
+}
