@@ -2,7 +2,7 @@
   "name": "scss-grid-gen",
   "version": "0.0.0",
   "description": "Basic grid-mixins for Sass",
-  "main": "lib/_grid-gen.scss",
+  "main": "./_core.scss",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "compilex": "node scripts/compile.js",
