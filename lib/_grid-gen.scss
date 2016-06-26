@@ -1,3 +1,7 @@
+//
+// Defaults
+// ==========================================================================
+
 // 
 // Measurement Configuration
 // 
@@ -11,9 +15,20 @@ $grid-gen-column-count:		12		!default;
 // 
 $grid-gen-container-class:		"grid-gen-container" 	!default;
 $grid-gen-row-class:			"grid-gen-row"			!default;
-$grid-gen-column-class:			"grid-gen-column"		!default;
-$grid-gen-column-class-prefix:	"col-"					!default;
+$grid-gen-column-class:			"grid-gen-col"			!default;
+$grid-gen-column-class-prefix:	"grid-gen-col-"			!default;
 
+//
+// Mixins / Functions
+// ==========================================================================
+
+// 
+// If necessary, converts a string into a class-selector. Then
+// returns it.
+// 
+// @param $str	(String)	The string to convert
+// @return		(String)	The converted string
+// 
 @function grid-gen-ensure-class($str) {
 	$char: str-slice($str, 0, 1);
 
@@ -24,6 +39,14 @@ $grid-gen-column-class-prefix:	"col-"					!default;
 	@return $str;
 }
 
+// 
+// Default function. Generates the class used to indicate
+// column-widths based on a column-count. 
+// 
+// @param $count	(Number)	The number of columns to span
+// @param $prefix	(String)	A prefix to apply to each instance
+// @return			(String)	The desired class
+// 
 @function grid-gen-column-class(
 	$count:		null,
 	$prefix: 	$grid-gen-column-class-prefix) {
@@ -31,6 +54,10 @@ $grid-gen-column-class-prefix:	"col-"					!default;
 	@return grid-gen-ensure-class($prefix + $count);
 }
 
+// 
+// Applies base properties to a grid-container element, primarily
+// max-width.
+// 
 @mixin grid-gen-container(
 	$max-width: $grid-gen-max-width) {
 
@@ -39,6 +66,12 @@ $grid-gen-column-class-prefix:	"col-"					!default;
 	max-width: $max-width;
 }
 
+// 
+// Applies base properites to grid-row element, primarily a
+// clearfix and exterior margins to offset column gutters.
+// 
+// @param $gutter-width		(Number)	The desired gutter width
+// 
 @mixin grid-gen-row(
 	$gutter-width: $grid-gen-gutter-width) {
 
@@ -53,6 +86,13 @@ $grid-gen-column-class-prefix:	"col-"					!default;
 	}
 }
 
+// 
+// Applies base properties to a grid-column-element, primarily
+// pertaining to float and exterior padding for gutters.
+// 
+// @param $flow-direction	(String)	The direction to float
+// @param $gutter-width		(Number)	The desired gutter width
+// 
 @mixin grid-gen-column(
 	$flow-direction: 	$grid-gen-flow-direction,
 	$gutter-width: 		$grid-gen-gutter-width) {
@@ -64,13 +104,28 @@ $grid-gen-column-class-prefix:	"col-"					!default;
 	padding-right: $gutter-width * 0.5;
 }
 
+// 
+// Applies properties to an individual grid-column element
+// based on the number of columns we wish for it to span.
+// 
+// @param $column-span	(Number)	The desired span count
+// @param $column-count	(Number)	The total of columns
+// 
 @mixin grid-gen-column-width(
-	$column-count: 	$grid-gen-column-count,
-	$column-span: 	null) {
+	$column-span: 	null,
+	$column-count: 	$grid-gen-column-count) {
 
 	width: 100% / $column-count * $column-span;
 }
 
+// 
+// Generates a column-span class for each span-count
+// possibility based on the total number of columns.
+// 
+// @param $column-count		(Number)		The desired span count
+// @param $class-formatter	(Function name)	The function to generate the
+// 											desired class based on span
+// 
 @mixin grid-gen-column-classes(
 	$column-count: 		$grid-gen-column-count,
 	$class-formatter: 	grid-gen-column-class) {
@@ -87,19 +142,32 @@ $grid-gen-column-class-prefix:	"col-"					!default;
 	}
 }
 
-@mixin grid-gen-grid-classes() {
+// 
+// Generates all necessary grid CSS with defaults!
+// 
+@mixin grid-gen-grid-declarations(
+	$container-class: 	$grid-gen-container-class,
+	$row-class:			$grid-gen-row-class,
+	$column-class: 		$grid-gen-column-class) {
 
-	.grid-gen-container {
+	// 
+	// Ensuring all class-vars do, in fact, represent classes
+	// 
+	$container-class: 	grid-gen-ensure-class($container-class);
+	$row-class: 		grid-gen-ensure-class($row-class);
+	$column-class:		grid-gen-ensure-class($column-class);
+
+	// 
+	// Generate CSS
+	// 
+	#{$container-class} {
 		@include grid-gen-container();
 	}
-
-	.grid-gen-row {
+	#{$row-class} {
 		@include grid-gen-row();
 	}
-
-	.grid-gen-col {
+	#{$column-class} {
 		@include grid-gen-column;
 	}
-
 	@include grid-gen-column-classes();
 }
