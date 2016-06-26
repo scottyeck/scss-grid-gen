@@ -145,7 +145,7 @@ $grid-gen-column-class-prefix:	"grid-gen-col-"			!default;
 // 
 // Generates all necessary grid CSS with defaults!
 // 
-@mixin grid-gen-grid-declarations(
+@mixin grid-gen-declarations(
 	$container-class: 	$grid-gen-container-class,
 	$row-class:			$grid-gen-row-class,
 	$column-class: 		$grid-gen-column-class) {
