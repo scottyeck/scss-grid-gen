@@ -55,13 +55,13 @@ $grid-gen-column-class: 	"col-";
 @include grid-gen-declarations();
 ```
 
-This will output all CSS from `grid-gen-declarations()` using the settings configured prior to the import. See below for more information regarding the variables whose values can be modified.
+This will output all CSS from `grid-gen-declarations()` using the settings configured prior to the import. See [below](#configurable-defaults) for more information regarding the variables whose values can be modified.
 
 Note that you must define the variables _before_ the module itself is imported. This is due to the way in which `!default` variable declarations operate in Sass. Read Edwin Morris' [article on the topic](https://robots.thoughtbot.com/sass-default) for more info.
 
 #### Option 3: DIY
 
-Should you wish to do so, you may use the individual building-blocks from `scss-grid-gen` to build your own grid. See below for Funciton/Mixin API documentation, and be sure to check out the examples.
+Should you wish to do so, you may use the individual building-blocks from `scss-grid-gen` to build your own grid. See [below](#functionmixin-api) for Funciton/Mixin API documentation, and be sure to check out the examples.
 
 ##### Configurable Defaults
 
