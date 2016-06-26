@@ -61,7 +61,7 @@ Note that you must define the variables _before_ the module itself is imported. 
 
 #### Option 3: DIY
 
-Should you wish to do so, you may use the individual building-blocks from `scss-grid-gen` to build your own grid. See [below](#functionmixin-api) for Funciton/Mixin API documentation, and be sure to check out the examples.
+Should you wish to do so, you may use the individual building-blocks from `scss-grid-gen` to build your own grid. See [below](#functionmixin-api) for Function/Mixin API documentation, and be sure to check out the examples.
 
 ##### Configurable Defaults
 
