@@ -80,6 +80,7 @@ $grid-gen-column-class-prefix:	"grid-gen-col-"			!default;
 	&:after {
 		content: ' ';
 		clear: both;
+		display: block;
 	}
 }
 
