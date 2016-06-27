@@ -1,6 +1,6 @@
 {
   "name": "scss-grid-gen",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "description": "Basic grid-mixins for Sass",
   "main": "./_core.scss",
   "scripts": {
