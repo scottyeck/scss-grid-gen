@@ -30,8 +30,12 @@ $grid-gen-column-class-prefix:	"grid-gen-col-"			!default;
 // @return		(String)	The converted string
 // 
 @function grid-gen-ensure-class($str) {
-	$char: str-slice($str, 0, 1);
 
+	@if (type-of($str) != string) {
+		@error "Function `grid-gen-ensure-class` expected arg `$str` to be of type `string` but received `#{$str}`.";
+	}	
+
+	$char: str-slice($str, 0, 1);
 	@if ($char != ".") {
 		$str: "." + $str;
 	}
@@ -47,7 +51,9 @@ $grid-gen-column-class-prefix:	"grid-gen-col-"			!default;
 // @return			(String)	The desired class
 // 
 @function _grid-gen-column-class($count) {
-
+	@if (type-of($count) != number) {
+		@error "Private function `_grid-gen-column-class` expected arg `$count` to be of type `number` but received `#{$count}`.";
+	}
 	@return grid-gen-ensure-class($grid-gen-column-class-prefix + $count);
 }
 
@@ -57,6 +63,10 @@ $grid-gen-column-class-prefix:	"grid-gen-col-"			!default;
 // 
 @mixin grid-gen-container(
 	$max-width: $grid-gen-max-width) {
+
+	@if (type-of($max-width) != number) {
+		@error "Mixin `grid-gen-container` expected arg `$max-width` to be of type `number` but received `#{$max-width}`.";
+	}
 
 	display: block;
 	width: auto;
@@ -71,6 +81,10 @@ $grid-gen-column-class-prefix:	"grid-gen-col-"			!default;
 // 
 @mixin grid-gen-row(
 	$gutter-width: $grid-gen-gutter-width) {
+
+	@if (type-of($gutter-width) != number) {
+		@error "Mixin `grid-gen-row` expected arg `$gutter-width` to be of type `number` but received `#{$gutter-width}`.";
+	}
 
 	width: auto;
 	display: block;
@@ -95,6 +109,16 @@ $grid-gen-column-class-prefix:	"grid-gen-col-"			!default;
 	$flow-direction: 	$grid-gen-flow-direction,
 	$gutter-width: 		$grid-gen-gutter-width) {
 
+	$_valid-flow-directions: ("left", "right");
+
+	@if (type-of($gutter-width) != number) {
+		@error "Mixin `grid-gen-column-width` expected arg `$gutter-width` to be of type `number` but received `#{$gutter-width}`.";
+	}
+
+	@if (not index($_valid-flow-directions, $flow-direction)) {
+		@error "Mixin `grid-gen-column-width` expected arg `$flow-direction` to be member of `#{$_valid-flow-directions}` but received `#{$flow-direction}`.";
+	}
+
 	box-sizing: border-box;
 	display: block;
 	float: $flow-direction;
@@ -113,6 +137,18 @@ $grid-gen-column-class-prefix:	"grid-gen-col-"			!default;
 	$column-span: 	null,
 	$column-count: 	$grid-gen-column-count) {
 
+	@if (type-of($column-span) != number) {
+		@error "Mixin `grid-gen-column-width` expected arg `$column-span` to be of type `number` but received `" + $column-span + "`.";
+	}
+
+	@if (type-of($column-count) != number) {
+		@error "Mixin `grid-gen-column-width` expected arg `$column-count` to be of type `number` but received `" + $column-span + "`.";
+	}
+
+	@if (not ($column-span <= $column-count)) {
+		@error "Mixin `grid-gen-column-width` expected arg `$column-span` to be less than or equal to arg `$column-count`.";
+	}
+
 	width: 100% / $column-count * $column-span;
 }
 
@@ -127,6 +163,14 @@ $grid-gen-column-class-prefix:	"grid-gen-col-"			!default;
 @mixin grid-gen-column-classes(
 	$column-count: 		$grid-gen-column-count,
 	$class-formatter: 	_grid-gen-column-class) {
+
+	@if (type-of($column-count) != number) {
+		@error "Mixin `grid-gen-column-classes` expected arg `$column-count` to be of type `number` but received `#{$column-count}`.";
+	}
+
+	@if ((type-of($class-formatter) != string) or (not function-exists($class-formatter))) {
+		@error "Mixin `grid-gen-column-classes` expected arg `$class-formatter` to be name of user-defined function but received `#{$class-formatter}`.";
+	}
 
 	@for $i from 1 through $column-count {
 		$class: call($class-formatter, $i);
